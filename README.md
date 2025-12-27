@@ -22,7 +22,7 @@ flac2alac -r <directory>
 flac2alac --no-art
 ```
 
-### Requirements
+### Requirements:
 * ``ffmpeg`` (``brew install ffmpeg``)
 * macOS / Linux (... why'd you be using it on Linux?)
 
