@@ -2,7 +2,7 @@
 
 Converts \*.FLAC files to \*.M4A (ALAC).
 
-## Installation:
+### Installation:
 ```bash
 git clone https://github.com/spnch1/flac2alac.git
 cd flac2alac
@@ -10,7 +10,7 @@ chmod +x flac2alac
 sudo cp flac2alac /usr/local/bin
 ```
 
-## Usage:
+### Usage:
 ```bash
 # Convert current directory
 flac2alac
@@ -22,7 +22,7 @@ flac2alac -r <directory>
 flac2alac --no-art
 ```
 
-## Requirements
+### Requirements
 * ``ffmpeg`` (``brew install ffmpeg``)
 * macOS / Linux (... why'd you be using it on Linux?)
 
