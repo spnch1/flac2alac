@@ -24,6 +24,6 @@ flac2alac --no-art
 
 ## Requirements
 * ``ffmpeg`` (``brew install ffmpeg``)
-* macOS / Linux (... why'd you be using it with linux?)
+* macOS / Linux (... why'd you be using it on Linux?)
 
 <sub>blah blah blah, got tired of Music.app not supporting my beloved FLACs, so i wrote this wrapper around ffmpeg</sub>
