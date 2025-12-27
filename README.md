@@ -4,7 +4,7 @@ Converts \*.FLAC files to \*.M4A (ALAC).
 
 ## Installation:
 ```bash
-git clone [https://github.com/spnch1/flac2alac.git](https://github.com/spnch1/flac2alac.git)
+git clone https://github.com/spnch1/flac2alac.git
 cd flac2alac
 chmod +x flac2alac
 sudo cp flac2alac /usr/local/bin
@@ -26,4 +26,4 @@ flac2alac --no-art
 * ``ffmpeg`` (``brew install ffmpeg``)
 * macOS / Linux (... why'd you be using it with linux?)
 
-<sub>blah blah blah, got tired of Music.app not supporting my beloved FLACs, so i wrote this wrapper around ffmpeg</sub>
+> <sub>blah blah blah, got tired of Music.app not supporting my beloved FLACs, so i wrote this wrapper around ffmpeg</sub>
