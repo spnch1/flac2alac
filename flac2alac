@@ -1,0 +1,76 @@
+#!/bin/bash
+
+if ! command -v ffmpeg &> /dev/null; then
+  echo "ERROR: ffmpeg is not installed, dummy."
+  echo "Install it with:"
+  echo ""
+  echo "brew install ffmpeg"
+  exit 1
+fi
+
+recursive=false
+strip_art=false
+show_help=false
+target_dir="."
+
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    -r|--recursive) recursive=true ;;
+    --no-art)       strip_art=true ;;
+    -h|--help)      show_help=true ;;
+    -*)             echo "Unknown argument: $1"; exit 1 ;;
+    *)              target_dir="$1" ;;
+  esac
+  shift
+done
+
+if [[ "$show_help" == true ]]; then
+  echo "Usage: flac2alac [options] [directory]"
+  echo ""
+  echo "Options:"
+  printf "  %-20s %s\n" "-r, --recursive" "Recursively find *.FLAC files in subdirectories"
+  printf "  %-20s %s\n" "--no-art"      "Strip cover art (avoids corruption on some files)"
+  printf "  %-20s %s\n" "-h, --help"    "Show this help message"
+  echo ""
+  echo "Examples"
+  echo "  flac2alac                       # Convert current directory"
+  echo "  flac2alac -r ~/Music/Library    # Convert entire library (with subdirectories)"
+  exit 0
+fi
+
+convert_file() {
+  local file="$1"
+  [[ -f "$file" ]] || return
+
+  local output="${file%.flac}.m4a"
+
+  if [[ -f "$output" ]]; then
+    printf -- "--- Skipping (exists): %s\n" "$(basename "$output")"
+    return
+  fi
+
+  printf -- "--- Converting: %s\n" "$(basename "$file")"
+
+  if [[ "$strip_art" == true ]]; then
+    ffmpeg -i "$file" -c:a alac -vn -v error "$output" < /dev/null
+  else
+    ffmpeg -i "$file" -c:a alac -c:v copy -map_metadata 0 -v error "$output" < /dev/null
+  fi
+}
+
+if [[ "$recursive" == true ]]; then
+  echo "--- Mode: Recursive Scan in '$target_dir'"
+  find "$target_dir" -type f -name "*.flac" -print0 | while IFS= read -r -d '' file; do
+    convert_file "$file"
+  done
+else
+  echo "--- Mode: Flat Scan in '$target_dir'"
+  shopt -s nullglob
+  for file in "$target_dir"/*.flac; do
+    convert_file "$file"
+  done
+  shopt -u nullglob
+fi
+
+echo ""
+echo "Done."
